@@ -15,6 +15,8 @@ jobs:
           uses: actions/setup-node@v1
           node-version: 20.18.0
       - run: npm ci # npm installをciではこうやる
+      - run : npm run build
+      - run: ls
         env:
             CI: true # 現在の環境がci環境かどうか
           
@@ -29,6 +31,6 @@ jobs:
       id-token: write
     steps:
       - uses: actions/deploy-pages@v1
-      - uses: actions/checkout@4
-      
+      - uses: actions/checkout@v4
+
         id: deployment
