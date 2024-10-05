@@ -1,9 +1,9 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build:
@@ -12,14 +12,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           name: build app
-          uses: actions/setup-node@v1
+          uses: actions/setup-node@v4
           node-version: 20.18.0
       - run: npm ci # npm installをciではこうやる
       - run : npm run build
       - run: ls
+      - uses: actions/upload-artifact@v4
+        with:
+            name: built-artifact
+            path: ./dist
         env:
             CI: true # 現在の環境がci環境かどうか
-          
+
   deploy:
     needs: build
     runs-on: ubuntu-latest 
