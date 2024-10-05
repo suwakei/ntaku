@@ -8,17 +8,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - run: |
-          mkdir data
-          echo "<h1>Hello GitHub Pages!</h1>" > data/index.html          
-      - uses: actions/upload-artifact@v3
+    steps:        
+      - uses: actions/checkout@v4
         with:
-          name: my_site
-          path: data
-      - uses: actions/upload-pages-artifact@v1
-        with:
-          path: data
+          name: build app
+          uses: actions/setup-node@v1
+          node-version: 20.18.0
+      - run: npm ci # npm installをciではこうやる
+        env:
+            CI: true # 現在の環境がci環境かどうか
           
   deploy:
     needs: build
@@ -31,4 +29,6 @@ jobs:
       id-token: write
     steps:
       - uses: actions/deploy-pages@v1
+      - uses: actions/checkout@4
+      
         id: deployment
