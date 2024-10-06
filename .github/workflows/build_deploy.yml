@@ -8,36 +8,50 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:        
       - uses: actions/checkout@v4
+
         with:
           name: build app
           uses: actions/setup-node@v4
           node-version: 20.18.0
+
       - run: npm ci # npm installをciではこうやる
+
       - run : npm run build
+
       - run: ls
+
       - uses: actions/upload-artifact@v4
+
         with:
             name: built-artifact
             path: ./dist
+
         env:
             CI: true # 現在の環境がci環境かどうか
 
   deploy:
     needs: build
+
     runs-on: ubuntu-latest 
+    
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     permissions:
       pages: write
       id-token: write
+
     steps:
       - name: download-artifact
         id: deployment
         uses: actions/download-artifact@v4
         with:
           name: built-artifact
-      - run: ls ../
-      - uses: actions/deploy-pages@v4
+
+      - run: ls
+
+      - uses: actions/deploy-pages@v1
