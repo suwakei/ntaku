@@ -39,5 +39,5 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: built-artifact
-      - run: ls
+      - run: ls ../
       - uses: actions/deploy-pages@v4
