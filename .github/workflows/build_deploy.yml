@@ -2,6 +2,7 @@ name: CI
 
 on:
   workflow_dispatch:
+
   push:
     branches: [ "main" ]
 
@@ -23,8 +24,7 @@ jobs:
 
       - run: ls
 
-      - uses: actions/upload-artifact@v4
-
+      - uses: actions/upload-pages-artifact@v3
         with:
             name: built-artifact
             path: ./dist
@@ -54,4 +54,4 @@ jobs:
 
       - run: ls
 
-      - uses: actions/deploy-pages@v1
+      - uses: actions/deploy-pages@v4
