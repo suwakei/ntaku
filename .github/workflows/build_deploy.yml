@@ -47,11 +47,12 @@ jobs:
 
     steps:
       - name: download-artifact
-        id: deployment
         uses: actions/download-artifact@v4
         with:
           name: built-artifact
 
       - run: ls
 
-      - uses: actions/deploy-pages@v4
+      - name: deploy to pages 
+        uses: actions/deploy-pages@v4
+        id: deployment
