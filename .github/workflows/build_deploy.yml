@@ -53,6 +53,9 @@ jobs:
 
       - run: ls
 
+      - name: configure-pages
+        uses: actions/configure-pages@v4
+
       - name: deploy to pages 
         uses: actions/deploy-pages@v4
         id: deployment
