@@ -11,60 +11,49 @@ on:
     branches:
       - main
 
+  # environment:
+  #   name: github-pages
+  #   url: ${{ steps.deployment.outputs.page_url }
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  build:
+  build_deploy:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: checkout    
         uses: actions/checkout@v4
         with:
-          name: build app
           uses: actions/setup-node@v4
           node-version: 20.18.0
+          cache: "npm"
 
-      - run: npm ci # npm installをciではこうやる
+      - name: install dependencies  
+        run: npm ci # npm installをciではこうやる
 
-      - run : npm run build
+      - name: build
+        run : npm run build
 
-      - run: ls
+      - name: current files
+        run: ls
 
-      - uses: actions/upload-artifact@v4
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: built-artifact
           path: ./dist
-
-        env:
-            CI: true # 現在の環境がci環境かどうか
-
-  deploy:
-    needs: build
-
-    concurrency:
-      group: "pages"
-      cancel-in-progress: true
-
-    runs-on: ubuntu-latest 
-    
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-
-    steps:
-
-      - run: ls
-
-      - name: checkout
-        uses: actions/checkout@v4
 
       - name: setup-pages
         uses: actions/configure-pages@v4
 
       - name: deploy to pages 
-        uses: actions/deploy-pages@main
         id: deployment
+        uses: actions/deploy-pages@main
