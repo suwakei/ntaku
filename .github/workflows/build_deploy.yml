@@ -4,15 +4,20 @@ on:
   workflow_dispatch:
 
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:        
-      - uses: actions/checkout@v4
-
+    steps:
+      - name: checkout    
+        uses: actions/checkout@v4
         with:
           name: build app
           uses: actions/setup-node@v4
@@ -26,14 +31,18 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-            name: built-artifact
-            path: ./dist
+          name: built-artifact
+          path: ./dist
 
         env:
             CI: true # 現在の環境がci環境かどうか
 
   deploy:
     needs: build
+
+    concurrency:
+      group: "pages"
+      cancel-in-progress: true
 
     runs-on: ubuntu-latest 
     
@@ -42,6 +51,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     permissions:
+      contents: read
       pages: write
       id-token: write
 
@@ -49,9 +59,12 @@ jobs:
 
       - run: ls
 
-      - name: configure-pages
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup-pages
         uses: actions/configure-pages@v4
 
       - name: deploy to pages 
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@main
         id: deployment
