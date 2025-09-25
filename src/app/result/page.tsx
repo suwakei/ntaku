@@ -2,18 +2,21 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
+import DOMPurify from 'dompurify';
 import { Button } from '@mui/material';
 import styles from '../page.module.css';
 
 function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const resultValue = searchParams.get('value');
+  const unsafeResultValue = searchParams.get('value');
+
+  const resultValue = unsafeResultValue ? DOMPurify.sanitize(unsafeResultValue) : '結果がありません';
 
   return (
     <div className={styles.resultContainer}>
       <h2>結果は...</h2>
-      <p className={styles.resultText}>{resultValue || '結果がありません'}</p>
+      <p className={styles.resultText}>{resultValue}</p>
       <Button variant="contained" onClick={() => router.push('/')}>もう一度</Button>
     </div>
   );
