@@ -1,95 +1,131 @@
-import Image from "next/image";
+"use client";
+
 import styles from "./page.module.css";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button, IconButton } from '@mui/material';
+import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
+import toast, { Toaster } from 'react-hot-toast';
+
+type TextAreaItem = {
+  id: number;
+  value: string;
+};
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const router = useRouter();
+  const [textAreas, setTextAreas] = useState<TextAreaItem[]>([
+    { id: 1, value: "" },
+    { id: 2, value: "" },
+  ]);
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const addTextArea = () => {
+    const newTextArea = { id: Date.now(), value: "" };
+    setTextAreas([...textAreas, newTextArea]);
+  };
+
+  const removeTextArea = (idToRemove: number) => {
+    if (textAreas.length <= 2) {
+      toast.error("テキストエリアは2つ未満にはできません。");
+    } else {
+      setTextAreas(textAreas.filter((textArea) => textArea.id !== idToRemove));
+    }
+  };
+
+  const handleTextChange = (id: number, target: HTMLTextAreaElement) => {
+    // 高さを自動調整
+    target.style.height = "auto";
+    target.style.height = `${target.scrollHeight}px`;
+
+    setTextAreas(
+      textAreas.map((textArea) =>
+        textArea.id === id ? { ...textArea, value: target.value } : textArea
+      )
+    );
+  };
+
+  const handleSubmit = async () => {
+    // 各テキストエリアの値の前後の空白を削除
+    const trimmedTextAreas = textAreas.map((textArea) => ({
+      ...textArea,
+      value: textArea.value.trim(),
+    }));
+
+    // 値が空のテキストエリアがあるかチェック
+    const hasEmptyValue = trimmedTextAreas.some(
+      (textArea) => textArea.value === ""
+    );
+
+    if (hasEmptyValue) {
+      toast.error("空欄の選択肢があります。入力してください。");
+      return; // 空の項目があれば、ここで処理を中断
+    }
+
+    const toastId = toast.loading("送信中...");
+    try {
+      const response = await fetch('/api/answer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(trimmedTextAreas),
+      });
+
+      if (!response.ok) {
+        throw new Error('サーバーとの通信に失敗しました。');
+      }
+
+      const result = await response.json();
+      if (result.selected && result.selected.value) {
+        toast.dismiss(toastId);
+        router.push(`/result?value=${encodeURIComponent(result.selected.value)}`);
+      } else {
+        throw new Error('有効なレスポンスがありませんでした。');
+      }
+      console.log('API Response (Selected):', result.selected);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : '不明なエラーが発生しました。', { id: toastId });
+    }
+  };
+
+  return (
+    <main className={styles.main}>
+      <Toaster position="top-center" />
+      <div className={styles.container}>
+        <>
+          {textAreas.map((textArea) => (
+            <div key={textArea.id} className={styles.textAreaWrapper}>
+              <textarea
+                className={styles.textarea}
+                rows={1}
+                value={textArea.value}
+                onChange={(e) => handleTextChange(textArea.id, e.target)}
+              />
+              <IconButton
+                aria-label="remove textarea"
+                onClick={() => removeTextArea(textArea.id)}
+                sx={{
+                  backgroundColor: 'error.main',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'error.dark',
+                  },
+                }}
+              >
+                <RemoveIcon />
+              </IconButton>
+            </div>
+          ))}
+          <div className={styles.actions}>
+            <IconButton
+              aria-label="add textarea"
+              onClick={addTextArea}
+              sx={{ backgroundColor: 'primary.main', color: 'white', '&:hover': { backgroundColor: 'primary.dark' } }}
+            ><AddIcon /></IconButton>
+            <Button variant="contained" onClick={handleSubmit}>決める！</Button>
+          </div>
+        </>
+      </div>
+    </main>
   );
 }

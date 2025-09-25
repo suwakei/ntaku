@@ -1,0 +1,21 @@
+.header {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.logoLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1976d2; /* Material-UIのPrimaryカラーに合わせました */
+}
