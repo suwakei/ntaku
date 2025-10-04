@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import styles from "./page.module.css";
+import styles from './page.module.css';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, IconButton } from '@mui/material';
@@ -15,18 +15,18 @@ type TextAreaItem = {
 export default function Home() {
   const router = useRouter();
   const [textAreas, setTextAreas] = useState<TextAreaItem[]>([
-    { id: 1, value: "" },
-    { id: 2, value: "" },
+    { id: 1, value: '' },
+    { id: 2, value: '' },
   ]);
 
   const addTextArea = () => {
-    const newTextArea = { id: Date.now(), value: "" };
+    const newTextArea = { id: Date.now(), value: '' };
     setTextAreas([...textAreas, newTextArea]);
   };
 
   const removeTextArea = (idToRemove: number) => {
     if (textAreas.length <= 2) {
-      toast.error("テキストエリアは2つ未満にはできません。");
+      toast.error('テキストエリアは2つ未満にはできません。');
     } else {
       setTextAreas(textAreas.filter((textArea) => textArea.id !== idToRemove));
     }
@@ -34,7 +34,7 @@ export default function Home() {
 
   const handleTextChange = (id: number, target: HTMLTextAreaElement) => {
     // 高さを自動調整
-    target.style.height = "auto";
+    target.style.height = 'auto';
     target.style.height = `${target.scrollHeight}px`;
 
     setTextAreas(
@@ -53,15 +53,15 @@ export default function Home() {
 
     // 値が空のテキストエリアがあるかチェック
     const hasEmptyValue = trimmedTextAreas.some(
-      (textArea) => textArea.value === ""
+      (textArea) => textArea.value === ''
     );
 
     if (hasEmptyValue) {
-      toast.error("空欄の選択肢があります。入力してください。");
+      toast.error('空欄の選択肢があります。入力してください。');
       return; // 空の項目があれば、ここで処理を中断
     }
 
-    const toastId = toast.loading("送信中...");
+    const toastId = toast.loading('送信中...');
     try {
       const response = await fetch('/api/answer', {
         method: 'POST',
@@ -78,19 +78,32 @@ export default function Home() {
       const result = await response.json();
       if (result.selected && result.selected.value) {
         toast.dismiss(toastId);
-        router.push(`/result?value=${encodeURIComponent(result.selected.value)}`);
+        router.push(
+          `/result?value=${encodeURIComponent(result.selected.value)}`
+        );
       } else {
         throw new Error('有効なレスポンスがありませんでした。');
       }
       console.log('API Response (Selected):', result.selected);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : '不明なエラーが発生しました。', { id: toastId });
+      toast.error(
+        error instanceof Error ? error.message : '不明なエラーが発生しました。',
+        { id: toastId }
+      );
     }
   };
 
   return (
     <main className={styles.main}>
       <Toaster position="top-center" />
+      <div className={styles.header}>
+        <h1 className={styles.title}>優柔不断の、最終兵器。</h1>
+        <p className={styles.description}>
+          N択は、選択肢を入力し「決める！」ボタンを押して、
+          ランダムに結果を選んでくれるシンプルなツールです。
+          迷ったときのご飯選びやチーム分けなどにご利用ください！
+        </p>
+      </div>
       <div className={styles.container}>
         <>
           {textAreas.map((textArea) => (
@@ -120,9 +133,17 @@ export default function Home() {
             <IconButton
               aria-label="add textarea"
               onClick={addTextArea}
-              sx={{ backgroundColor: 'primary.main', color: 'white', '&:hover': { backgroundColor: 'primary.dark' } }}
-            ><AddIcon /></IconButton>
-            <Button variant="contained" onClick={handleSubmit}>決める！</Button>
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                '&:hover': { backgroundColor: 'primary.dark' },
+              }}
+            >
+              <AddIcon />
+            </IconButton>
+            <Button variant="contained" onClick={handleSubmit}>
+              決める！
+            </Button>
           </div>
         </>
       </div>

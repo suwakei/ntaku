@@ -1,0 +1,35 @@
+name: Build and Test
+
+on:
+  workflow_run:
+    workflows: ["Check"] # `check.yml` の `name` を指定
+    types:
+      - completed
+
+jobs:
+  build:
+    # 'Check' ワークフローが成功した場合にのみ、このジョブを実行する
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # トリガーとなったワークフローのコミットをチェックアウトする
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Run build
+        run: npm run build

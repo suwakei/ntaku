@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/app/conponents/layout/Header";
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import Header from '@/app/components/layout/Header';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "N択 - ランダム選択アプリ",
-  description: "複数の選択肢からランダムに1つを決定します",
+  title: 'N択 - ランダム選択アプリ',
+  description: '複数の選択肢からランダムに1つを決定します',
 };
 
 export default function RootLayout({

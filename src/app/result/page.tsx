@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
@@ -11,13 +11,17 @@ function ResultContent() {
   const router = useRouter();
   const unsafeResultValue = searchParams.get('value');
 
-  const resultValue = unsafeResultValue ? DOMPurify.sanitize(unsafeResultValue) : '結果がありません';
+  const resultValue = unsafeResultValue
+    ? DOMPurify.sanitize(unsafeResultValue)
+    : '結果がありません';
 
   return (
     <div className={styles.resultContainer}>
       <h2>結果は...</h2>
       <p className={styles.resultText}>{resultValue}</p>
-      <Button variant="contained" onClick={() => router.push('/')}>もう一度</Button>
+      <Button variant="contained" onClick={() => router.push('/')}>
+        もう一度
+      </Button>
     </div>
   );
 }

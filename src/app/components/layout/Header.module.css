@@ -15,7 +15,6 @@
 
 .logo {
   margin: 0;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1976d2; /* Material-UIのPrimaryカラーに合わせました */
+  height: 40px; /* SVGの高さを指定 */
+  width: auto; /* 幅は自動調整 */
 }
