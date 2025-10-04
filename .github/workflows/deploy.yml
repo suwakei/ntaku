@@ -2,7 +2,7 @@ name: Deploy to Vercel
 
 on:
   workflow_run:
-    workflows: ["Build and Test"] # build.yml の `name` を指定
+    workflows: ['Build and Test'] # build.yml の `name` を指定
     types:
       - completed
 

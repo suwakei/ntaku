@@ -2,7 +2,7 @@ name: Build and Test
 
 on:
   workflow_run:
-    workflows: ["Check"] # `check.yml` の `name` を指定
+    workflows: ['Check'] # `check.yml` の `name` を指定
     types:
       - completed
 
