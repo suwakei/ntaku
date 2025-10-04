@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { selectRandomItem } from '@/lib/selection';
-import type { TextAreaItem } from '@/types';
+import type { TextAreaItem } from '@/types/types';
 import {
   HTTP_BAD_REQUEST,
   HTTP_INTERNAL_SERVER_ERROR,
-} from '@/app/constants/const';
+} from '@/app/constants/const.ts';
 
 export async function POST(request: Request) {
   try {
