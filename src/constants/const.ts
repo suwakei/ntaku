@@ -15,3 +15,5 @@ export const HTTP_SERVICE_UNAVAILABLE = 503;
 export const HTTP_GATEWAY_TIMEOUT = 504;
 export const HTTP_VERSION_NOT_SUPPORTED = 505;
 export const HTTP_NETWORK_AUTHENTICATION_REQUIRED = 511;
+
+export const APP_URL = 'https://example.com';

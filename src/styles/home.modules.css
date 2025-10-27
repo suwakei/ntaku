@@ -1,0 +1,87 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  color: #f45b8a;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.optionList {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.optionInput {
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 16px;
+  background: #d9f1ff;
+  color: #1b7ac3;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.addButton:hover {
+  background: #c8e9ff;
+}
+
+.randomButton {
+  width: 100%;
+  background: #ff7aa8;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  margin-top: 16px;
+  box-shadow: 0 4px 10px rgba(255, 122, 168, 0.4);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.randomButton:hover {
+  background: #ff5f97;
+}
+
+.result {
+  margin-top: 20px;
+  background: white;
+  border-radius: 16px;
+  padding: 12px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  font-size: 16px;
+}

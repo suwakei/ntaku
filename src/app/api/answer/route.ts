@@ -4,7 +4,7 @@ import type { TextAreaItem } from '@/types/types';
 import {
   HTTP_BAD_REQUEST,
   HTTP_INTERNAL_SERVER_ERROR,
-} from '@/app/constants/const.ts';
+} from '@/constants/const';
 
 export async function POST(request: Request) {
   try {

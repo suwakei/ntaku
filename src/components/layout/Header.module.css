@@ -1,11 +1,14 @@
 .header {
-  width: 100%;
-  padding: 1rem 2rem;
+  padding: 0.25rem 2rem;
   background-color: #fff;
   border-bottom: 1px solid #eaeaea;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* ロゴとボタンを左右に配置 */
+  flex-wrap: wrap; /* 画面幅が足りない場合に折り返す */
+  gap: 0.5rem; /* 折り返した際の要素間の余白 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(180deg, #e0f7fa 0%, #f8ffff 100%);
 }
 
 .logoLink {

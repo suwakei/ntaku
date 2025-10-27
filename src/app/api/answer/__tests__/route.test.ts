@@ -4,8 +4,17 @@ import { NextResponse } from 'next/server';
 import {
   HTTP_BAD_REQUEST,
   HTTP_INTERNAL_SERVER_ERROR,
-} from '@/app/constants/const';
+} from '@/constants/const';
 import type { TextAreaItem } from '@/types';
+
+// selectRandomItem をモック化
+vi.mock('@/lib/selection', () => ({
+  selectRandomItem: vi.fn(),
+}));
+
+import { selectRandomItem } from '@/lib/selection';
+
+const mockSelectRandomItem = vi.mocked(selectRandomItem);
 
 // NextResponse.json をモック化
 vi.mock('next/server', async () => {
@@ -33,6 +42,7 @@ describe('POST /api/answer', () => {
     // これにより、配列の中間にある要素が選ばれることを期待できます
     mathRandomSpy = vi.spyOn(Math, 'random').mockReturnValue(0.5);
     mockNextResponseJson.mockClear();
+    mockSelectRandomItem.mockClear();
   });
 
   afterEach(() => {
@@ -48,6 +58,9 @@ describe('POST /api/answer', () => {
 
     // Math.random() が 0.5 を返すので、randomIndex は floor(0.5 * 3) = 1 になる
     const expectedSelectedItem = testData[1];
+    
+    // selectRandomItem が期待されるアイテムを返すように設定
+    mockSelectRandomItem.mockReturnValue(expectedSelectedItem);
 
     const request = new Request('http://localhost/api/answer', {
       method: 'POST',
@@ -57,6 +70,8 @@ describe('POST /api/answer', () => {
 
     const response = await POST(request);
 
+    // selectRandomItem が正しく呼ばれたことを確認
+    expect(mockSelectRandomItem).toHaveBeenCalledWith(testData);
     expect(mockNextResponseJson).toHaveBeenCalledWith({
       selected: expectedSelectedItem,
     });
