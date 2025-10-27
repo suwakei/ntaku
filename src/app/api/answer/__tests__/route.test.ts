@@ -58,7 +58,7 @@ describe('POST /api/answer', () => {
 
     // Math.random() が 0.5 を返すので、randomIndex は floor(0.5 * 3) = 1 になる
     const expectedSelectedItem = testData[1];
-    
+
     // selectRandomItem が期待されるアイテムを返すように設定
     mockSelectRandomItem.mockReturnValue(expectedSelectedItem);
 

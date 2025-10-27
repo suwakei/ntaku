@@ -29,7 +29,9 @@ function ResultContent() {
     <div className={styles.resultContainer}>
       <h2 className={styles.resultTitle}>今回はこれに決まり！</h2>
       <p className={styles.resultText}>{resultValue}</p>
-      <p className={styles.resultSubtext}>この選択が、素晴らしい一日をもたらしますように！</p>
+      <p className={styles.resultSubtext}>
+        この選択が、素晴らしい一日をもたらしますように！
+      </p>
       <div className={styles.actions}>
         <Button
           variant="contained"
@@ -57,7 +59,8 @@ function ResultContent() {
           rel="noopener noreferrer"
           variant="outlined"
           startIcon={<XIcon />}
-          sx={{ borderRadius: '9999px',
+          sx={{
+            borderRadius: '9999px',
             color: 'rgb(255, 255, 255)',
             borderColor: 'rgb(255, 255, 255)',
             backgroundColor: 'rgb(0, 0, 0)',

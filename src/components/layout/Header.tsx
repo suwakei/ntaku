@@ -9,7 +9,8 @@ import { APP_URL } from '@/constants/const';
 
 export default function Header() {
   // Xで共有するためのURLを生成 (アプリ全体に関する情報)
-  const shareText = 'N択 - 迷った時の最終兵器！ランダム選択アプリを使ってみよう！';
+  const shareText =
+    'N択 - 迷った時の最終兵器！ランダム選択アプリを使ってみよう！';
   const hashtags = 'N択,ランダム選択,優柔不断'; // 複数のハッシュタグをカンマ区切りで指定
 
   const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
