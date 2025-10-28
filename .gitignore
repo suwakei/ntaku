@@ -11,12 +11,10 @@ dist/
 coverage/
 
 # Cursor
-.cursor/*
-!.cursor/config.json
+.cursor/
 
 # VSCode
-.vscode/*
-!.vscode/settings.json
+.vscode/
 
 # Env
 .env
