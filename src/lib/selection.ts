@@ -1,4 +1,4 @@
-import type { TextAreaItem } from '@/types';
+import type { TextAreaItem } from '@/types/types';
 
 /**
  * 配列からランダムに1つのアイテムを選択します。
