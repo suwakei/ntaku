@@ -1,3 +1,3 @@
 export const environments = {
-    APP_URL: process.env.NEXT_PUBLIC_APP_URL || '',
-}
+  APP_URL: process.env.NEXT_PUBLIC_APP_URL || '',
+};
