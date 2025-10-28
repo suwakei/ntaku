@@ -21,7 +21,7 @@ export default function Header() {
     <header className={styles.header}>
       <Link href="/" className={styles.logoLink}>
         <Image
-          src="/img/ntakuLogo.png"
+          src="/ntakuLogo.png"
           alt="N択 ロゴ"
           width={120}
           height={90}
