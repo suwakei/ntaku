@@ -5,17 +5,17 @@ import Image from 'next/image';
 import styles from './Header.module.css';
 import XIcon from '@mui/icons-material/X';
 import { Button } from '@mui/material';
-import { APP_URL } from '@/constants/const';
+import { environments } from '@/envs';
 
 export default function Header() {
   // Xで共有するためのURLを生成 (アプリ全体に関する情報)
   const shareText =
     'N択 - 迷った時の最終兵器！ランダム選択アプリを使ってみよう！';
-  const hashtags = 'N択,ランダム選択,優柔不断'; // 複数のハッシュタグをカンマ区切りで指定
+  const hashtags = 'N択,運試し,優柔不断'; // 複数のハッシュタグをカンマ区切りで指定
 
   const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     shareText
-  )}&url=${encodeURIComponent(APP_URL)}&hashtags=${encodeURIComponent(hashtags)}`;
+  )}&url=${encodeURIComponent(environments.APP_URL)}&hashtags=${encodeURIComponent(hashtags)}`;
 
   return (
     <header className={styles.header}>

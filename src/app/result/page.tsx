@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify';
 import { Button } from '@mui/material';
 import XIcon from '@mui/icons-material/X';
 import styles from '../page.module.css';
-import { APP_URL } from '@/constants/const';
+import { environments } from '@/envs';
 
 function ResultContent() {
   const searchParams = useSearchParams();
@@ -23,7 +23,7 @@ function ResultContent() {
 
   const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     shareText
-  )}&url=${encodeURIComponent(APP_URL)}&hashtags=${encodeURIComponent(hashtags)}`;
+  )}&url=${encodeURIComponent(environments.APP_URL)}&hashtags=${encodeURIComponent(hashtags)}`;
 
   return (
     <div className={styles.resultContainer}>
