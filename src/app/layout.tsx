@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import Header from '@/components/layout/Header';
+import { environments } from '@/envs.ts'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -12,9 +13,15 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const title = 'N択 - 迷った時の最終兵器！';
+const description = 'N択は、複数の選択肢で迷った時にランダムで一つを選んでくれるシンプルなWebアプリケーションです。';
+const appUrl = environments.APP_URL;
+const ogpImageUrl = `${appUrl}/ntakuLogo.png`;
+
+
 export const metadata: Metadata = {
-  title: 'N択 - ランダム選択アプリ',
-  description: '複数の選択肢からランダムに1つを決定します',
+  title: title,
+  description: description,
   icons: {
     icon: [
       { url: '/favicon-32x32.png' },
@@ -24,6 +31,28 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   manifest: '/site.webmanifest',
+  openGraph: {
+    title: title,
+    description: description,
+    url: appUrl,
+    siteName: 'N択',
+    type: 'website',
+    locale: 'ja_JP',
+    images: [
+      {
+        url: ogpImageUrl,
+        width: 1200,
+        height: 630,
+        alt: 'N択ロゴ',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: title,
+    description: description,
+    images: [ogpImageUrl]
+  }
 };
 
 export default function RootLayout({
